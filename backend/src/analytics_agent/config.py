@@ -174,6 +174,13 @@ class Settings(BaseSettings):
     # LLM provider — must be a key in PROVIDER_DEFAULTS above
     llm_provider: str = "openai"
     openai_api_key: str = ""
+    # OpenAI reasoning models (gpt-5*, o-series) reject function tools on
+    # /v1/chat/completions unless reasoning_effort is "none". Setting this routes
+    # them through the Responses API, which supports tools and reasoning together.
+    # One of: minimal, low, medium, high. Leave empty for non-reasoning models.
+    # Applied only to reasoning models (per _make_openai), so a single value is
+    # safe across tiers: it's ignored for non-reasoning tiers like gpt-4o-mini.
+    openai_reasoning_effort: str = ""
     anthropic_api_key: str = ""
     anthropic_base_url: str = ""
     google_api_key: str = ""
